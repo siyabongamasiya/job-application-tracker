@@ -1,0 +1,38 @@
+import React, { useState } from "react";
+
+
+interface FilterBarProps {
+  onFilterChange(newValue: string): void;
+  categories: string[];
+  category: string;
+}
+
+const FilterBar = ({
+  onFilterChange,
+  categories,
+  category,
+}: FilterBarProps) => {
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    onFilterChange(value);
+  };
+
+  return (
+    <div id="fiter-container">
+      <select value={category} onChange={handleCategoryChange}>
+        <option value="">All Categories</option>
+        {categories.map((cat) => (
+          <option key={cat} value={cat}>
+            {cat}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};
+
+
+
+
+
+export default FilterBar;

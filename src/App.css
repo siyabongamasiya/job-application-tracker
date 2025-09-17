@@ -1,0 +1,200 @@
+:root {
+  /*colors*/
+  --primary: #3b82f6;
+  --background: #fbfef9;
+  --neutral: #96897b;
+  --accent: #cf995f;
+  --dark-neutral: #3f3244;
+
+  /*typography*/
+  --heading-font: "Inter", sans-serif;
+  --heading-weight: "semibold";
+  --heading-size: 32px;
+
+  --body-text-font: "Inter", sans-serif;
+  --body-text-weight: 400;
+
+  --buttons-navLinks-font: "Inter", sans-serif;
+  --buttons-navLinks-weight: "medium";
+
+  --smallLabels-inputs-placeholders-font: "Inter", sans-serif;
+  --smallLabels-inputs-placeholders-weight: 400;
+  --smallLabels-inputs-placeholders-size: 14px;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+#nav {
+  width: 100%;
+  height: 20%;
+  background-color: var(--dark-neutral);
+  justify-content: center;
+  font-family: var(--heading-font);
+  font-weight: var(--heading-weight);
+  font-size: var(--heading-size);
+  align-items: center;
+  color: var(--background);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#nav-log-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+}
+
+#nav-log-container > img {
+  width: 5%;
+  max-height: 100%;
+  border-radius: 30%;
+}
+
+#button-container button {
+  padding: 10px;
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  box-shadow: 3px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: var(--background);
+  font-family: var(--buttons-navLinks-font);
+  font-weight: var(--buttons-navLinks-weight);
+}
+
+#fiter-container select {
+  padding: 1rem;
+  padding-right: 10rem;
+  font-family: var(--body-text-font);
+  font-weight: var(--body-text-weight);
+  border-radius: 30px;
+  border: 3px solid var(--accent);
+}
+
+#filter-container select:focus,
+#filter-container select:active,
+#filter-container select:valid {
+  border: 3px solid var(--accent);
+}
+
+#date-filter {
+  width: 15%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--body-text-font);
+  font-weight: var(--body-text-weight);
+  padding: 0.8rem;
+  padding-right: 2rem;
+  border-radius: 30px;
+  border: 3px solid var(--accent);
+}
+
+
+#footer{
+  display: flex;
+  justify-content: space-evenly;
+  gap: "4rem";
+  padding: 1rem;
+  background: var(--background);
+}
+
+
+.floating-input {
+  position: relative;
+  display: inline-block;
+  margin: 1rem 0;
+}
+
+.floating-input input {
+  width: 250px;
+  padding: 1rem;
+  border: 2px solid var(--accent);
+  font-size: 1rem; 
+}
+
+
+.floating-input input:focus,
+.floating-input input:active,
+.floating-input input:valid {
+  border: 2px solid var(--accent) !important; 
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
+
+.floating-label {
+  position: absolute;
+  top: -0.7rem;          
+  left: 1rem;           
+  background: var(--background);    
+  padding: 0 0.25rem;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+
+.job-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+.job-modal-container {
+  background:var(--background);
+  padding: 2rem;
+  border-radius: 16px;
+  width: 350px;
+  position: relative;
+}
+
+
+.job-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+
+.job-modal-submit {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--primary);
+  color:var(--background);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+
+.job-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
