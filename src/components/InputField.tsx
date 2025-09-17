@@ -1,23 +1,25 @@
 import React from "react";
 
-type FloatingInputProps = {
+interface FloatingInputProps {
   label: string;
   value: string;
+  type: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
-};
+}
 
-const InputField: React.FC<FloatingInputProps> = ({
+const InputField = ({
   label,
   value,
+  type,
   onChange,
   placeholder,
-}) => {
+}: FloatingInputProps) => {
   return (
     <div className="floating-input">
       <label className="floating-label">{label}</label>
       <input
-        type="text"
+        type={type}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
