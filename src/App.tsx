@@ -5,6 +5,7 @@ import LoginForm from "./components/LoginForm";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage/>} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage/>} />
+          <Route path="/register" element={<RegisterPage/>} />
         </Routes>
       </BrowserRouter>
       <Toaster richColors />

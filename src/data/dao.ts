@@ -1,15 +1,49 @@
 import axios from "axios";
 import { toast } from "sonner";
-import type User from "../models/User";
+import User from "../models/User";
+import Job from "../models/Job";
 
 export default class DataAccesObject {
-  async createUser(id: number, username: string, password: string) {
+  async createUser(
+    id: number,
+    username: string,
+    password: string,
+    confirmpassword: string
+  ): Promise<User[]> {
     try {
+      const usersResponse = await axios.get<User[]>(
+        "http://localhost:5000/users"
+      );
+      const users = usersResponse.data;
+
+      const existingUser = users.find((u) => u.username === username);
+
+      if (existingUser) {
+        toast.error("Username already exists!!");
+        return [];
+      }
+
+      if (password != confirmpassword) {
+        toast.error("passwords dont match!!");
+        return [];
+      }
+
       const response = await axios.post("http://localhost:5000/users", {
         id,
         username,
         password,
+        jobs: [],
       });
+
+      localStorage.setItem(
+        "currentUser",
+        JSON.stringify({
+          id,
+          username,
+          password,
+          jobs: [],
+        })
+      );
       return response.data;
     } catch (error) {
       toast.error("oops something went wrong!!");
@@ -19,11 +53,70 @@ export default class DataAccesObject {
   async getUsers(): Promise<User[]> {
     try {
       const response = await axios.get<User[]>("http://localhost:5000/users");
-      return response.data; 
+      return response.data;
     } catch (error) {
       toast.error("oops something went wrong!!");
       console.error(error);
       throw error;
+    }
+  }
+  async getUserById(id: string): Promise<User> {
+    try {
+      const response = await axios.get<User>(
+        `http://localhost:5000/users/${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async addJob(userId: number, job: Job): Promise<Job[] | null> {
+    try {
+      const userResponse = await axios.get(
+        `http://localhost:5000/users/${userId}`
+      );
+      const user = userResponse.data;
+
+      if (!user) {
+        toast.error("User not found!");
+        return null;
+      }
+
+      const updatedJobs = [...user.jobs, job];
+
+      const response = await axios.patch(
+        `http://localhost:5000/users/${userId}`,
+        {
+          jobs: updatedJobs,
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Job added successfully!");
+        return response.data.jobs;
+      } else {
+        toast.error("Failed to add job!");
+        return null;
+      }
+    } catch (error) {
+      toast.error("Oops, something went wrong!");
+      console.error(error);
+      return null;
+    }
+  }
+
+  saveCurrentUserToLocalStorage(user: User) {
+    localStorage.setItem("currentUser", JSON.stringify(user));
+  }
+
+  getCurrentUserFromLocalStorage(): User | null {
+    const results = localStorage.getItem("currentUser");
+    if (results) {
+      return JSON.parse(results) as User;
+    } else {
+      return null;
     }
   }
 }

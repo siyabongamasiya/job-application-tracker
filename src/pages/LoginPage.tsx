@@ -92,7 +92,7 @@ const MidSection = () => {
 
       <p>
         Dont have an account?{" "}
-        <span className="login-Register-Text">Register</span>
+        <a className="login-Register-Text" href="/register">Register</a>
       </p>
     </div>
   );

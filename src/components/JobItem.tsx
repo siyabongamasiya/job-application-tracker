@@ -1,18 +1,22 @@
 import React from "react";
 
-
 import companyIcon from "../assets/Company.png";
 import roleIcon from "../assets/role.png";
 import dateIcon from "../assets/Date-applied.png";
 
-interface JobListItemProps{
+interface JobListItemProps {
   company: string;
   role: string;
   dateApplied: string;
   statusImage: string;
-};
+}
 
-const JobListItem = ({ company, role, dateApplied, statusImage } :JobListItemProps) => {
+const JobListItem = ({
+  company,
+  role,
+  dateApplied,
+  statusImage,
+}: JobListItemProps) => {
   return (
     <div className="job-list-item">
       <div className="job-info">
@@ -30,7 +34,9 @@ const JobListItem = ({ company, role, dateApplied, statusImage } :JobListItemPro
             <span className="date-applied">{dateApplied}</span>
           </div>
         </div>
-        <img src={statusImage} alt="status" className="status-img" />
+        <div id="status-container">
+          <img src={statusImage} alt="status" className="status-img" />
+        </div>
       </div>
     </div>
   );

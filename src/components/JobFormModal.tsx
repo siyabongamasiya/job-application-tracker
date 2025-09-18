@@ -1,25 +1,26 @@
 import React, { useState } from "react";
 import InputField from "./InputField";
 import Button from "./Button";
+import DataAccesObject from "../data/dao";
+import type User from "../models/User";
+import Job from "../models/Job";
 
-type JobModalProps = {
+const dao = new DataAccesObject();
+
+interface JobModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: {
-    company: string;
-    role: string;
-    dateApplied: string;
-  }) => void;
-};
+  onSubmit: () => void;
+}
 
-const JobModal: React.FC<JobModalProps> = ({ isOpen, onClose, onSubmit }) => {
+const JobModal = ({ isOpen, onClose, onSubmit }: JobModalProps) => {
+  const [currentuser, setCurrentUser] = useState<User>();
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [dateApplied, setDateApplied] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit({ company, role, dateApplied });
+  const handleSubmit = () => {
+    onSubmit();
     setCompany("");
     setRole("");
     setDateApplied("");
@@ -36,25 +37,43 @@ const JobModal: React.FC<JobModalProps> = ({ isOpen, onClose, onSubmit }) => {
           <InputField
             label="Company"
             value={company}
+            type="text"
             placeholder="Company"
-            onChange={(e) => setCompany(e.target.value)}
+            onChange={(newValue) => setCompany(newValue)}
           />
           <InputField
             label="Role"
             value={role}
+            type="text"
             placeholder="Role"
-            onChange={(e) => setRole(e.target.value)}
+            onChange={(newValue) => setRole(newValue)}
           />
           <InputField
             label="Date Applied"
             value={dateApplied}
-            onChange={(e) => setDateApplied(e.target.value)}
-            placeholder="YYYY-MM-DD" 
+            type="Date"
+            onChange={(newValue) => setDateApplied(newValue)}
+            placeholder="YYYY-MM-DD"
           />
           <Button
             text="Submit"
-            onClick={() => {}}
-            style={{ backgroundColor: "#3B82F6", width: "100%" }}
+            onClick={() => {
+              dao.addJob(1125734941,{company,role,dateApplied,status:"pending"} as Job);
+              handleSubmit()
+            }}
+            style={{
+              width: "70%",
+              marginLeft: "10%",
+              padding: "0.75rem",
+              borderRadius: "8px",
+              border: "none",
+              backgroundColor: "var(--primary)",
+              color: "var(--background)",
+              fontFamily: "var(--buttons-navLinks-font)",
+              fontWeight: "var(--buttons-navLinks-weight)",
+              cursor: "pointer",
+              fontSize: "1rem",
+            }}
           />
         </form>
         <button onClick={onClose} className="job-modal-close">

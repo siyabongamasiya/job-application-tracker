@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import Button from "../components/Button";
 import SearchBar from "../components/SearchBar";
@@ -6,109 +6,15 @@ import FilterBar from "../components/FilterBar";
 import DateFilter from "../components/DateFilter";
 import Footer from "../components/Footer";
 
-import testImage from "../assets/Frame 36-2.png";
 import JobList from "../components/JobList";
+import JobModal from "../components/JobFormModal";
+import Job from "../models/Job";
+import DataAccesObject from "../data/dao";
+import User from "../models/User";
+import { useNavigate } from "react-router-dom";
 
-const jobs = [
-  {
-    id: 1,
-    company: "ABC Corp",
-    role: "Frontend Developer",
-    dateApplied: "2025-09-17",
-    status: testImage,
-  },
-  {
-    id: 2,
-    company: "XYZ Ltd",
-    role: "Backend Developer",
-    dateApplied: "2025-09-10",
-    status: testImage,
-  },
-  {
-    id: 3,
-    company: "Tech Solutions",
-    role: "Fullstack Developer",
-    dateApplied: "2025-09-12",
-    status: testImage,
-  },
-  {
-    id: 4,
-    company: "Design Studio",
-    role: "UI/UX Designer",
-    dateApplied: "2025-09-14",
-    status: testImage,
-  },
-  {
-    id: 5,
-    company: "Design Studio",
-    role: "UI/UX Designer",
-    dateApplied: "2025-09-14",
-    status: testImage,
-  },
-  {
-    id: 6,
-    company: "Design Studio",
-    role: "UI/UX Designer",
-    dateApplied: "2025-09-14",
-    status: testImage,
-  },
-  {
-    id: 7,
-    company: "Design Studio",
-    role: "UI/UX Designer",
-    dateApplied: "2025-09-14",
-    status: testImage,
-  },
-  {
-    id: 8,
-    company: "Design Studio",
-    role: "UI/UX Designer",
-    dateApplied: "2025-09-14",
-    status: testImage,
-  },
-  {
-    id: 9,
-    company: "Design Studio",
-    role: "UI/UX Designer",
-    dateApplied: "2025-09-14",
-    status: testImage,
-  },
-  {
-    id: 10,
-    company: "Design Studio",
-    role: "UI/UX Designer",
-    dateApplied: "2025-09-14",
-    status: testImage,
-  },
-  {
-    id: 11,
-    company: "Design Studio",
-    role: "UI/UX Designer",
-    dateApplied: "2025-09-14",
-    status: testImage,
-  },
-  {
-    id: 12,
-    company: "Design Studio",
-    role: "UI/UX Designer",
-    dateApplied: "2025-09-14",
-    status: testImage,
-  },
-  {
-    id: 13,
-    company: "Design Studio",
-    role: "UI/UX Designer",
-    dateApplied: "2025-09-14",
-    status: testImage,
-  },
-  {
-    id: 14,
-    company: "Design Studio",
-    role: "UI/UX Designer",
-    dateApplied: "2025-09-14",
-    status: testImage,
-  }
-];
+const dao = new DataAccesObject();
+interface MidSectionProps {}
 
 export default function HomePage() {
   return (
@@ -128,12 +34,45 @@ const TopSection = () => {
   );
 };
 const MidSection = () => {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<User | null>(
+    dao.getCurrentUserFromLocalStorage()
+  );
+  const navigate = useNavigate();
+
+  const getJobs = () => {
+    if (!currentUser) {
+      navigate("/register");
+      return;
+    } else {
+      dao.getUserById(currentUser.id.toString()).then((user: User) => {
+        setJobs(user.jobs);
+      });
+    }
+  };
+
+  useEffect(() => {
+    getJobs();
+  }, []);
+
   return (
     <div>
+      <JobModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+        }}
+        onSubmit={() => {
+          getJobs();
+        }}
+      />
       <div id="button-container-homepage">
         <Button
           text="Add new Job"
-          onClick={() => {}}
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
           style={{
             padding: "0.75rem",
             borderRadius: "8px",
@@ -155,7 +94,22 @@ const MidSection = () => {
         </div>
       </div>
       <div id="jobs-container">
-        <JobList jobs={jobs} />
+        {jobs.length === 0 ? (
+          <div
+            className="job-list-container"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "100vh",
+            }}
+          >
+            No jobs Yet!!..use the button above to add.
+          </div>
+        ) : (
+          <JobList jobs={jobs} />
+        )}
       </div>
     </div>
   );
