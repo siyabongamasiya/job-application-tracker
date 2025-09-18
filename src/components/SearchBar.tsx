@@ -1,5 +1,5 @@
 import React from "react";
-import InputField from "../components/InputField";
+import { FaSearch } from "react-icons/fa";
 
 interface SearchBarProps {
   value: string;
@@ -7,19 +7,21 @@ interface SearchBarProps {
   placeholder?: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ value, onChange, placeholder }) => {
+const SearchBar = ({ value, onChange, placeholder }: SearchBarProps) => {
   return (
     <div id="search-bar">
-      <InputField
-        label="Search"
+      <input
         type="text"
         value={value}
         onChange={onChange}
-        placeholder={placeholder}
+        placeholder={placeholder || "Search..."}
+        className="search-input"
       />
+      <FaSearch size="20px"/>
     </div>
   );
 };
 
 export default SearchBar;
+
 

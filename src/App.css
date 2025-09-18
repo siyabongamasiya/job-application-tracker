@@ -58,6 +58,15 @@ body,
   justify-content: start;
 }
 
+#nav-title-container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding-top: 2rem;
+  padding-right: 2rem;
+  width: 100%;
+}
+
 #nav-log-container > img {
   width: 5%;
   max-height: 100%;
@@ -141,32 +150,34 @@ body,
   color: var(--accent);
 }
 
-/*search*/
-#search-bar .floating-input input {
-  width: 250px; /* same width as date filter */
-  padding: 0.8rem;
-  padding-right: 2rem; /* space for any icon on the right */
-  border-radius: 30px;
+#search-bar {
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  align-items: center;
   border: 3px solid var(--accent);
+  border-radius: 30px;
+}
+
+.search-input {
+  padding: 0.8rem;
+  padding-right: 2rem;
+  border-radius: 30px;
+  border: 1px solid transparent;
   font-family: var(--body-text-font);
   font-weight: var(--body-text-weight);
 }
 
-#search-bar .floating-input input:focus,
-#search-bar .floating-input input:active,
-#search-bar .floating-input input:valid {
-  border: 3px solid var(--accent) !important;
+.search-input:focus{
+  border: 1px solid transparent !important;
   outline: none !important;
   box-shadow: none !important;
 }
 
-#search-bar .floating-label {
-  top: -0.7rem;
-  left: 1rem;
-  background: var(--background);
-  padding: 0 0.25rem;
-  font-size: 0.9rem;
-  color: var(--accent);
+.search-input:focus {
+  border: 3px solid var(--accent);
+  outline: none;
 }
 
 .job-modal-backdrop {

@@ -9,9 +9,8 @@ interface NavProps {
 export default function NavBar({ title, hasBackButton }: NavProps) {
   return (
     <div id="nav">
-      <div>
-        
-        <p id="nav-title">{title}</p>
+      <div id="nav-title-container" >
+        <p id="nav-title" >{title}</p>
       </div>
       <div id="nav-log-container">
         <img id="nav-logo" src={logo} alt="logo" />
