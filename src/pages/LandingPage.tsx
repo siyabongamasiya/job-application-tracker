@@ -5,7 +5,7 @@ import Button from "../components/Button";
 
 export default function LandingPage() {
   return (
-    <div>
+    <div id="landing-page">
       <TopSection />
       <MidSection />
     </div>
@@ -22,17 +22,35 @@ const TopSection = () => {
 
 const MidSection = () => {
   return (
-    <div>
+    <div id="midSection-landingPage">
       <div id="hero-section">
         <img src={hero} alt="hero" />
         <p>
-          <span>"Track your Job applications"</span> <br/>
-          <span>A simple tool to keep record</span> <br/>
-          <span>of Applied jobs,check progress,</span> <br/>
+          <span>"Track your Job applications"</span> <br />
+          <span>A simple tool to keep record</span> <br />
+          <span>of Applied jobs,check progress,</span> <br />
           <span>and stay organised.</span>
         </p>
       </div>
-      <Button text="Get Started" onClick={() => {}} style={{}} />
+      <div id="button-container-landing">
+        <Button
+          text="Get Started"
+          onClick={() => {}}
+          style={{
+            width:"50%",
+            alignSelf: "center",
+            padding: "0.75rem",
+            borderRadius: "8px",
+            border: "none",
+            backgroundColor: "var(--primary)",
+            color: "var(--background)",
+            fontFamily: "var(--buttons-navLinks-font)",
+            fontWeight: "var(--buttons-navLinks-weight)",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+        />
+      </div>
     </div>
   );
 };

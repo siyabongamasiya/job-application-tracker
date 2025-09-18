@@ -4,7 +4,7 @@ interface FloatingInputProps {
   label: string;
   value: string;
   type: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: string) => void;
   placeholder?: string;
 }
 
@@ -21,7 +21,9 @@ const InputField = ({
       <input
         type={type}
         value={value}
-        onChange={onChange}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange(e.target.value)
+          }
         placeholder={placeholder}
       />
     </div>
