@@ -5,7 +5,7 @@ import Job from "../models/Job";
 
 export default class DataAccesObject {
   async createUser(
-    id: number,
+    id: string,
     username: string,
     password: string,
     confirmpassword: string
