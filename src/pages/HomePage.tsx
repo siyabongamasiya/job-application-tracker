@@ -36,6 +36,7 @@ const TopSection = () => {
 const MidSection = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [category, setCategory] = useState("All categories");
   const [currentUser, setCurrentUser] = useState<User | null>(
     dao.getCurrentUserFromLocalStorage()
   );
@@ -89,7 +90,13 @@ const MidSection = () => {
       <div id="search-filters-container">
         <SearchBar value="" onChange={() => {}} />
         <div id="filters-container">
-          <FilterBar categories={[]} category="" onFilterChange={() => {}} />
+          <FilterBar
+            categories={["rejected", "accepted", "pending"]}
+            category={category}
+            onFilterChange={(newValue) => {
+              setCategory(newValue);
+            }}
+          />
           <DateFilter />
         </div>
       </div>

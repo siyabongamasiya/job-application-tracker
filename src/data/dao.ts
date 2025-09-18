@@ -12,7 +12,7 @@ export default class DataAccesObject {
   ): Promise<User[]> {
     try {
       const usersResponse = await axios.get<User[]>(
-        "http://localhost:5000/users"
+        "http://localhost:3000/users"
       );
       const users = usersResponse.data;
 
@@ -28,7 +28,7 @@ export default class DataAccesObject {
         return [];
       }
 
-      const response = await axios.post("http://localhost:5000/users", {
+      const response = await axios.post("http://localhost:3000/users", {
         id,
         username,
         password,
@@ -52,7 +52,7 @@ export default class DataAccesObject {
   }
   async getUsers(): Promise<User[]> {
     try {
-      const response = await axios.get<User[]>("http://localhost:5000/users");
+      const response = await axios.get<User[]>("http://localhost:3000/users");
       return response.data;
     } catch (error) {
       toast.error("oops something went wrong!!");
@@ -63,7 +63,7 @@ export default class DataAccesObject {
   async getUserById(id: string): Promise<User> {
     try {
       const response = await axios.get<User>(
-        `http://localhost:5000/users/${id}`
+        `http://localhost:3000/users/${id}`
       );
       return response.data;
     } catch (error) {
@@ -75,7 +75,7 @@ export default class DataAccesObject {
   async addJob(userId: number, job: Job): Promise<Job[] | null> {
     try {
       const userResponse = await axios.get(
-        `http://localhost:5000/users/${userId}`
+        `http://localhost:3000/users/${userId}`
       );
       const user = userResponse.data;
 
@@ -87,7 +87,7 @@ export default class DataAccesObject {
       const updatedJobs = [...user.jobs, job];
 
       const response = await axios.patch(
-        `http://localhost:5000/users/${userId}`,
+        `http://localhost:3000/users/${userId}`,
         {
           jobs: updatedJobs,
         }

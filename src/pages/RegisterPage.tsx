@@ -1,4 +1,4 @@
-import React, { useId, useState } from "react";
+import React, {useState } from "react";
 import NavBar from "../components/NavBar";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
@@ -6,6 +6,7 @@ import DataAccesObject from "../data/dao";
 import Authenticator from "../utils/authenticator";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import generateUserId from "../utils/IdGenerator";
 
 const auth = new Authenticator();
 const dao = new DataAccesObject();
@@ -33,10 +34,6 @@ const MidSection = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
-
-  const getId = () : string => {
-    return useId()
-  }
   const clearFields = () => {
     setUsername("");
     setPassword("");
@@ -82,7 +79,7 @@ const MidSection = () => {
           onClick={() => {
             dao
               .createUser(
-                getId(),
+                generateUserId(username,password),
                 username,
                 password,
                 confirmPassword

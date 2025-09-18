@@ -1,4 +1,7 @@
-export default function generateUserId(username: string, password: string): number {
+export default function generateUserId(
+  username: string,
+  password: string
+): string {
   const str = username + password;
   let hash = 0;
 
@@ -7,5 +10,5 @@ export default function generateUserId(username: string, password: string): numb
     hash |= 0; 
   }
 
-  return Math.abs(hash);
+  return Math.abs(hash).toString(); 
 }

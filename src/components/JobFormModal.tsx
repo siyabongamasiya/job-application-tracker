@@ -33,7 +33,7 @@ const JobModal = ({ isOpen, onClose, onSubmit }: JobModalProps) => {
     <div className="job-modal-backdrop">
       <div className="job-modal-container">
         <h2 style={{ marginBottom: "1rem" }}>Add Job</h2>
-        <form onSubmit={handleSubmit} className="job-modal-form">
+        <div className="job-modal-form">
           <InputField
             label="Company"
             value={company}
@@ -58,8 +58,17 @@ const JobModal = ({ isOpen, onClose, onSubmit }: JobModalProps) => {
           <Button
             text="Submit"
             onClick={() => {
-              dao.addJob(1125734941,{company,role,dateApplied,status:"pending"} as Job);
-              handleSubmit()
+              dao
+                .addJob(1125734941, {
+                  company,
+                  role,
+                  dateApplied,
+                  status: "pending",
+                } as Job)
+                .then(() => {
+                  handleSubmit();
+                });
+              
             }}
             style={{
               width: "70%",
@@ -75,7 +84,7 @@ const JobModal = ({ isOpen, onClose, onSubmit }: JobModalProps) => {
               fontSize: "1rem",
             }}
           />
-        </form>
+        </div>
         <button onClick={onClose} className="job-modal-close">
           X
         </button>
