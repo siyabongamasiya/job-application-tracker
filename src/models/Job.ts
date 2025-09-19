@@ -1,12 +1,12 @@
 export default class Job {
-  id: number;
+  id: string;
   company: string;
   role: string;
   dateApplied: string;
   status: string;
 
   constructor(
-    id: number,
+    id: string,
     company: string,
     role: string,
     dateApplied: string,

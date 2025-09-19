@@ -9,6 +9,7 @@ interface JobListItemProps {
   role: string;
   dateApplied: string;
   statusImage: string;
+  onClick() : void;
 }
 
 const JobListItem = ({
@@ -16,9 +17,10 @@ const JobListItem = ({
   role,
   dateApplied,
   statusImage,
+  onClick
 }: JobListItemProps) => {
   return (
-    <div className="job-list-item">
+    <div className="job-list-item" onClick={onClick}>
       <div className="job-info">
         <div className="job-text">
           <div className="job-field">

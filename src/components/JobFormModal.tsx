@@ -4,6 +4,7 @@ import Button from "./Button";
 import DataAccesObject from "../data/dao";
 import type User from "../models/User";
 import Job from "../models/Job";
+import { generateJobId } from "../utils/IdGenerator";
 
 const dao = new DataAccesObject();
 
@@ -60,6 +61,7 @@ const JobModal = ({ isOpen, onClose, onSubmit }: JobModalProps) => {
             onClick={() => {
               dao
                 .addJob(1125734941, {
+                  id: generateJobId(company,role),
                   company,
                   role,
                   dateApplied,

@@ -12,7 +12,7 @@ export default class DataAccesObject {
   ): Promise<User[]> {
     try {
       const usersResponse = await axios.get<User[]>(
-        "http://localhost:3000/users"
+        "https://apex-track-json-server.onrender.com/users"
       );
       const users = usersResponse.data;
 
@@ -28,7 +28,7 @@ export default class DataAccesObject {
         return [];
       }
 
-      const response = await axios.post("http://localhost:3000/users", {
+      const response = await axios.post("https://apex-track-json-server.onrender.com/users", {
         id,
         username,
         password,
@@ -52,7 +52,7 @@ export default class DataAccesObject {
   }
   async getUsers(): Promise<User[]> {
     try {
-      const response = await axios.get<User[]>("http://localhost:3000/users");
+      const response = await axios.get<User[]>("https://apex-track-json-server.onrender.com/users");
       return response.data;
     } catch (error) {
       toast.error("oops something went wrong!!");
@@ -63,9 +63,25 @@ export default class DataAccesObject {
   async getUserById(id: string): Promise<User> {
     try {
       const response = await axios.get<User>(
-        `http://localhost:3000/users/${id}`
+        `https://apex-track-json-server.onrender.com/users/${id}`
       );
       return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+  async getJobById(id: string): Promise<Job> {
+    try {
+      const currentUserFromLocal = this.getCurrentUserFromLocalStorage();
+      const response = await axios.get<User>(
+        `https://apex-track-json-server.onrender.com/users/${currentUserFromLocal!.id}`
+      );
+      const resultJob = response.data.jobs.filter(
+        (job) => job.id.toString() === id
+      );
+
+      return resultJob[0];
     } catch (error) {
       console.error(error);
       throw error;
@@ -75,7 +91,7 @@ export default class DataAccesObject {
   async addJob(userId: number, job: Job): Promise<Job[] | null> {
     try {
       const userResponse = await axios.get(
-        `http://localhost:3000/users/${userId}`
+        `https://apex-track-json-server.onrender.com/users/${userId}`
       );
       const user = userResponse.data;
 
@@ -87,7 +103,7 @@ export default class DataAccesObject {
       const updatedJobs = [...user.jobs, job];
 
       const response = await axios.patch(
-        `http://localhost:3000/users/${userId}`,
+        `https://apex-track-json-server.onrender.com/users/${userId}`,
         {
           jobs: updatedJobs,
         }

@@ -9,7 +9,7 @@ import Footer from "../components/Footer";
 import JobList from "../components/JobList";
 import JobModal from "../components/JobFormModal";
 import Job from "../models/Job";
-import DataAccesObject from "../data/dao";
+import DataAccesObject from "../data/dao"; 
 import User from "../models/User";
 import { useNavigate } from "react-router-dom";
 
@@ -37,10 +37,18 @@ const MidSection = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [category, setCategory] = useState("All categories");
+  const [dateFilter, setDateFilter] = useState("");
   const [currentUser, setCurrentUser] = useState<User | null>(
     dao.getCurrentUserFromLocalStorage()
   );
   const navigate = useNavigate();
+
+  const filterByCategory = (jobs: Job[]) => {
+    return jobs.filter((job) => job.status === category);
+  };
+  const filterByDate = (jobs: Job[]) => {
+    return jobs.filter((job) => job.dateApplied === dateFilter);
+  };
 
   const getJobs = () => {
     if (!currentUser) {
