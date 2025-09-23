@@ -1,7 +1,5 @@
 import "./App.css";
 import { Toaster } from "sonner";
-import LandingPage from "./pages/LandingPage";
-import LoginForm from "./components/LoginForm";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";

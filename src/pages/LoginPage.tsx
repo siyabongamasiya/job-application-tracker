@@ -7,6 +7,7 @@ import generateUserId from "../utils/IdGenerator";
 import Authenticator from "../utils/authenticator";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import type User from "../models/User";
 
 const dao = new DataAccesObject();
 const auth = new Authenticator();

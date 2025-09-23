@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 import DataAccesObject from "../data/dao";
+import type User from "../models/User";
 
 const dao = new DataAccesObject();
 
@@ -16,6 +17,15 @@ export default class Authenticator {
       toast.error("Wrong password!!");
     } else {
       authenticated = true;
+      const id = user.id;
+      const username = user.username;
+      const password = user.password;
+
+      dao.saveCurrentUserToLocalStorage({
+        id,
+        username,
+        password,
+      } as User);
       console.log(user.id);
     }
 

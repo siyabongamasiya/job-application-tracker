@@ -53,7 +53,8 @@ const MidSection = () => {
         job.status === search ||
         job.role === search ||
         job.company === search ||
-        job.dateApplied === search
+        job.dateApplied === search ||
+        search === ""
     );
   };
   const filterByDate = (jobs: Job[]): Job[] => {
@@ -78,7 +79,7 @@ const MidSection = () => {
   }, [category, dateFilter, search]);
 
   return (
-    <div>
+    <div id="midsection-homepage-container">
       <JobModal
         isOpen={isModalOpen}
         onClose={() => {
@@ -136,8 +137,6 @@ const MidSection = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              width: "100%",
-              height: "100vh",
             }}
           >
             No jobs Yet!!..use the button above to add.

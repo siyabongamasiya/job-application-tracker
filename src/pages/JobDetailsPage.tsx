@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import type Job from "../models/Job";
 import Button from "../components/Button";
 import NavBar from "../components/NavBar";
 import DataAccesObject from "../data/dao";
+import JobModal from "../components/JobFormModal";
 
 const dao = new DataAccesObject();
 
@@ -33,12 +34,14 @@ const TopSection = () => {
 
 const MidSection = ({ jobId }: MidSectionProps) => {
   const [currentJob, setCurrentJob] = useState<Job>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dao.getJobById(jobId).then((job) => {
       setCurrentJob(job);
     });
-  }, []);
+  }, [isModalOpen]);
 
   return (
     <div id="job-details-container">
@@ -58,49 +61,55 @@ const MidSection = ({ jobId }: MidSectionProps) => {
         </p>
       </div>
 
-      <div id="job-details-2" className="details-container">
-        <p>
-          Duties:
-          <br />
-          <span className="details-span">details to be added</span>
-        </p>
-      </div>
-
-      <div id="job-details-3" className="details-container">
-        <p>
-          Address: <span className="details-span">details to be added</span>
-        </p>
-        <p>
-          Contact: <span className="details-span">details to be added</span>
-        </p>
-      </div>
-
       <div id="job-details-buttons-container">
-        <Button text="Edit Job" onClick={() => {}} style={{
-              marginLeft: "10%",
-              padding: "0.75rem",
-              borderRadius: "8px",
-              border: "none",
-              backgroundColor: "var(--primary)",
-              color: "var(--background)",
-              fontFamily: "var(--buttons-navLinks-font)",
-              fontWeight: "var(--buttons-navLinks-weight)",
-              cursor: "pointer",
-              fontSize: "1rem",
-            }} />
-        <Button text="Delete Job" onClick={() => {}} style={{
-              marginLeft: "10%",
-              padding: "0.75rem",
-              borderRadius: "8px",
-              border: "none",
-              backgroundColor: "var(--accent)",
-              color: "var(--background)",
-              fontFamily: "var(--buttons-navLinks-font)",
-              fontWeight: "var(--buttons-navLinks-weight)",
-              cursor: "pointer",
-              fontSize: "1rem",
-            }} />
+        <Button
+          text="Edit Job"
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
+          style={{
+            marginLeft: "10%",
+            padding: "0.75rem",
+            borderRadius: "8px",
+            border: "none",
+            backgroundColor: "var(--primary)",
+            color: "var(--background)",
+            fontFamily: "var(--buttons-navLinks-font)",
+            fontWeight: "var(--buttons-navLinks-weight)",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+        />
+        <Button
+          text="Delete Job"
+          onClick={async () => {
+            await dao.deleteJob(currentJob!.id);
+            navigate("/");
+          }}
+          style={{
+            marginLeft: "10%",
+            padding: "0.75rem",
+            borderRadius: "8px",
+            border: "none",
+            backgroundColor: "var(--accent)",
+            color: "var(--background)",
+            fontFamily: "var(--buttons-navLinks-font)",
+            fontWeight: "var(--buttons-navLinks-weight)",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+        />
       </div>
+
+      <JobModal
+        isEditMode={true}
+        editedJobId={jobId}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          
+        }}
+      />
     </div>
   );
 };

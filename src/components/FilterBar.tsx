@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-
 interface FilterBarProps {
   onFilterChange(newValue: string): void;
   categories: string[];
@@ -18,7 +17,7 @@ const FilterBar = ({
   };
 
   return (
-    <div id="fiter-container">
+    <div id="filter-container">
       <select value={category} onChange={handleCategoryChange}>
         {categories.map((cat) => (
           <option key={cat} value={cat}>
@@ -29,9 +28,5 @@ const FilterBar = ({
     </div>
   );
 };
-
-
-
-
 
 export default FilterBar;

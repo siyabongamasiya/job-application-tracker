@@ -28,31 +28,35 @@ export default class DataAccesObject {
         return [];
       }
 
-      const response = await axios.post("https://apex-track-json-server.onrender.com/users", {
-        id,
-        username,
-        password,
-        jobs: [],
-      });
-
-      localStorage.setItem(
-        "currentUser",
-        JSON.stringify({
+      const response = await axios.post(
+        "https://apex-track-json-server.onrender.com/users",
+        {
           id,
           username,
           password,
           jobs: [],
-        })
+        }
       );
+
+      this.saveCurrentUserToLocalStorage({
+          id,
+          username,
+          password,
+          jobs: [],
+        } as User)
       return response.data;
     } catch (error) {
       toast.error("oops something went wrong!!");
       throw error;
     }
   }
+
   async getUsers(): Promise<User[]> {
     try {
-      const response = await axios.get<User[]>("https://apex-track-json-server.onrender.com/users");
+      const response = await axios.get<User[]>(
+        "https://apex-track-json-server.onrender.com/users"
+      );
+
       return response.data;
     } catch (error) {
       toast.error("oops something went wrong!!");
@@ -65,6 +69,7 @@ export default class DataAccesObject {
       const response = await axios.get<User>(
         `https://apex-track-json-server.onrender.com/users/${id}`
       );
+
       return response.data;
     } catch (error) {
       console.error(error);
@@ -75,7 +80,9 @@ export default class DataAccesObject {
     try {
       const currentUserFromLocal = this.getCurrentUserFromLocalStorage();
       const response = await axios.get<User>(
-        `https://apex-track-json-server.onrender.com/users/${currentUserFromLocal!.id}`
+        `https://apex-track-json-server.onrender.com/users/${
+          currentUserFromLocal!.id
+        }`
       );
       const resultJob = response.data.jobs.filter(
         (job) => job.id.toString() === id
@@ -120,6 +127,68 @@ export default class DataAccesObject {
       toast.error("Oops, something went wrong!");
       console.error(error);
       return null;
+    }
+  }
+
+  async deleteJob(id: string) {
+    try {
+      const currentUser = this.getCurrentUserFromLocalStorage()!;
+      const remoteUser = await this.getUserById(currentUser.id.toString());
+
+      const updatedJobs = remoteUser.jobs.filter((job) => job.id !== id);
+      const updatedUser = { ...remoteUser, jobs: updatedJobs };
+
+      const response = await axios.put(
+        `https://apex-track-json-server.onrender.com/users/${remoteUser.id}`,
+        updatedUser
+      );
+
+      if (response.status === 200 || response.status === 204) {
+        toast.message("Deleted successfully!!");
+      } else {
+        toast.error("Something went wrong... check your internet!!");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete job. Please try again later.");
+    }
+  }
+
+  async editJob(
+    onClose: () => void,
+    jobId: string,
+    updatedData: Partial<{
+      company: string;
+      role: string;
+      dateApplied: string;
+      status: string;
+    }>
+  ) {
+    try {
+      const currentUser = this.getCurrentUserFromLocalStorage()!;
+      const remoteUser = await this.getUserById(currentUser.id.toString());
+
+      const updatedJobs = remoteUser.jobs.map((job) =>
+        job.id === jobId ? { ...job, ...updatedData } : job
+      );
+      const updatedUser = { ...remoteUser, jobs: updatedJobs };
+
+      const response = await axios.put(
+        `https://apex-track-json-server.onrender.com/users/${remoteUser.id}`,
+        updatedUser
+      );
+
+      if (response.status === 200 || response.status === 204) {
+        toast.message("Job updated successfully!!");
+        onClose();
+      } else {
+        toast.error("Something went wrong... check your internet!!");
+        onClose()
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update job. Please try again later.");
+      onClose()
     }
   }
 
