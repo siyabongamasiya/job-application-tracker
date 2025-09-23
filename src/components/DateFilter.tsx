@@ -1,13 +1,20 @@
-import calendar from "../assets/Date-applied.png";
+import InputField from "./InputField";
 
-const DateFilter = () => {
+interface DateFilterProps {
+  currentDate: string;
+  onDateChange(newValue: string): void;
+}
+
+const DateFilter = ({ currentDate, onDateChange }: DateFilterProps) => {
   return (
-    <div id="date-filter">
-      <span>Select by date</span>
-      <img
-        
-        src={calendar}
-        alt="calendar-filter"
+    <div className="floating-input-datefilter">
+      <input
+        type="date"
+        value={currentDate}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          onDateChange(e.target.value)
+        }
+        placeholder="yyyy/mm/dd"
       />
     </div>
   );

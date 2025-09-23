@@ -22,8 +22,8 @@ const InputField = ({
         type={type}
         value={value}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            onChange(e.target.value)
-          }
+          onChange(e.target.value)
+        }
         placeholder={placeholder}
       />
     </div>

@@ -3,7 +3,7 @@ import { FaSearch } from "react-icons/fa";
 
 interface SearchBarProps {
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (newValue: string) => void;
   placeholder?: string;
 }
 
@@ -13,15 +13,15 @@ const SearchBar = ({ value, onChange, placeholder }: SearchBarProps) => {
       <input
         type="text"
         value={value}
-        onChange={onChange}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          onChange(e.target.value)
+        }
         placeholder={placeholder || "Search..."}
         className="search-input"
       />
-      <FaSearch size="20px"/>
+      <FaSearch size="20px" />
     </div>
   );
 };
 
 export default SearchBar;
-
-

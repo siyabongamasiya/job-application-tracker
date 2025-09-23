@@ -9,7 +9,7 @@ import Footer from "../components/Footer";
 import JobList from "../components/JobList";
 import JobModal from "../components/JobFormModal";
 import Job from "../models/Job";
-import DataAccesObject from "../data/dao"; 
+import DataAccesObject from "../data/dao";
 import User from "../models/User";
 import { useNavigate } from "react-router-dom";
 
@@ -36,18 +36,30 @@ const TopSection = () => {
 const MidSection = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [category, setCategory] = useState("All categories");
+  const [category, setCategory] = useState("pending");
   const [dateFilter, setDateFilter] = useState("");
+  const [search, setSearch] = useState("");
   const [currentUser, setCurrentUser] = useState<User | null>(
     dao.getCurrentUserFromLocalStorage()
   );
   const navigate = useNavigate();
 
-  const filterByCategory = (jobs: Job[]) => {
+  const filterByCategory = (jobs: Job[]): Job[] => {
     return jobs.filter((job) => job.status === category);
   };
-  const filterByDate = (jobs: Job[]) => {
-    return jobs.filter((job) => job.dateApplied === dateFilter);
+  const filterBySearch = (jobs: Job[]): Job[] => {
+    return jobs.filter(
+      (job) =>
+        job.status === search ||
+        job.role === search ||
+        job.company === search ||
+        job.dateApplied === search
+    );
+  };
+  const filterByDate = (jobs: Job[]): Job[] => {
+    return jobs.filter(
+      (job) => job.dateApplied === dateFilter || dateFilter === ""
+    );
   };
 
   const getJobs = () => {
@@ -56,14 +68,14 @@ const MidSection = () => {
       return;
     } else {
       dao.getUserById(currentUser.id.toString()).then((user: User) => {
-        setJobs(user.jobs);
+        setJobs(filterByCategory(filterByDate(filterBySearch(user.jobs))));
       });
     }
   };
 
   useEffect(() => {
     getJobs();
-  }, []);
+  }, [category, dateFilter, search]);
 
   return (
     <div>
@@ -96,7 +108,12 @@ const MidSection = () => {
         />
       </div>
       <div id="search-filters-container">
-        <SearchBar value="" onChange={() => {}} />
+        <SearchBar
+          value={search}
+          onChange={(newValue) => {
+            setSearch(newValue);
+          }}
+        />
         <div id="filters-container">
           <FilterBar
             categories={["rejected", "accepted", "pending"]}
@@ -105,7 +122,10 @@ const MidSection = () => {
               setCategory(newValue);
             }}
           />
-          <DateFilter />
+          <DateFilter
+            currentDate={dateFilter}
+            onDateChange={(newValue) => setDateFilter(newValue)}
+          />
         </div>
       </div>
       <div id="jobs-container">

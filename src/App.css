@@ -165,14 +165,19 @@ body,
   border: 3px solid var(--accent);
 }
 
-#date-filter {
+.floating-input-datefilter {
   display: flex;
   gap: 5rem;
-  padding: 1rem;
+  padding: 0.8rem;
   font-family: var(--body-text-font);
   font-weight: var(--body-text-weight);
   border-radius: 30px;
   border: 3px solid var(--accent);
+}
+.floating-input-datefilter > input {
+  border: 1px solid transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 #footer {

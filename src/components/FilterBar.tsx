@@ -20,7 +20,6 @@ const FilterBar = ({
   return (
     <div id="fiter-container">
       <select value={category} onChange={handleCategoryChange}>
-        <option value="">All Categories</option>
         {categories.map((cat) => (
           <option key={cat} value={cat}>
             {cat}
