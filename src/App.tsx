@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RegisterPage from "./pages/RegisterPage";
 import JobDetailsPage from "./pages/JobDetailsPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import { useEffect, useState } from "react";
 
 function App() {
   return (
@@ -23,5 +24,5 @@ function App() {
     </>
   );
 }
-
+ 
 export default App;

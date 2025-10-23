@@ -60,7 +60,6 @@ export default class DataAccesObject {
       return response.data;
     } catch (error) {
       toast.error("oops something went wrong!!");
-      console.error(error);
       throw error;
     }
   }
@@ -72,7 +71,6 @@ export default class DataAccesObject {
 
       return response.data;
     } catch (error) {
-      console.error(error);
       throw error;
     }
   }
