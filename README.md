@@ -64,7 +64,7 @@ npm run build
 
 6. Deployment
 
-This project is deployed on Render using the Basic Plan.
+This project's backend is deployed on Render using the Basic Plan.
 
 ⚠️ Note: Because of the Render Basic Plan, you may experience some delays in server wake-up when accessing the site after inactivity.
 
