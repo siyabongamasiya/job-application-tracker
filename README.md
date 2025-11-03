@@ -44,34 +44,34 @@ A **React + TypeScript** web application for tracking job applications, built wi
 git clone https://github.com/siyabongamasiya/job-application-tracker.git
 cd job-application-tracker
 ```
-```bash
 2. Install dependencies:
+```bash
 npm install
 ```
-```bash
 3. Start the development server:
+```bash
 npm run dev
 ```
-```bash
 4. Open your browser and go to:
+```bash
 http://localhost:5173
 ```
 
-```bash
 5. Build
+```bash
 To build the project for production:
 ```
+6. Deployment
 ```bash
 npm run build
-6. Deployment
 ```
 
 This project's backend is deployed on Render using the Basic Plan.(https://apex-track-json-server.onrender.com)
 
 ⚠️ Note: Because of the Render Basic Plan, you may experience some delays in server wake-up when accessing the site after inactivity.
 
-```bash
 7. Folder Structure
+```bash
 src/
 ├─ components/   # Reusable UI components (Button, InputField, NavBar)
 ├─ data/         # Data Access Objects
@@ -81,8 +81,8 @@ src/
 └─ App.tsx       # Main entry point
 ```
 
-```bash
 8. Notes
+```bash
 The app uses CSS variables for consistent theming.
 
 Forms (Login/Register) have a fixed width to maintain layout integrity.
