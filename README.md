@@ -1,69 +1,93 @@
-# React + TypeScript + Vite
+# Job Application Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **React + TypeScript** web application for tracking job applications, built with modern tools and features.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **User Authentication**
+  - Login and Register pages
+  - Protected routes for job management
+- **Job Management**
+  - Add, view, and track jobs
+  - Job details page with status and notes
+- **Search & Filters**
+  - Category filters
+  - Date filters for sorting
+- **Responsive Design**
+  - Optimized for mobile and desktop
+  - Fully responsive job cards and forms
+- **Interactive UI**
+  - Toast notifications via [Sonner](https://github.com/sonner-toast/sonner)
+  - Clean, modern layout using CSS variables and flex/grid
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- **Front-end:** React 19, TypeScript, Vite
+- **Routing:** React Router DOM v7
+- **Styling:** CSS (flexbox & grid)
+- **State & Utilities:** useState, custom hooks
+- **Notifications:** Sonner
+- **Icons:** React Icons
+- **Data:** Local JS/JSON (Data Access Object)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/siyabongamasiya/job-application-tracker.git
+cd job-application-tracker
+```
+2. Install dependencies:
+```bash
+npm install
+```
+3. Start the development server:
+```bash
+npm run dev
+```
+4. Open your browser and go to:
+```bash
+http://localhost:5173
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+5. Build
+```bash
+To build the project for production:
+```
+6. Deployment
+```bash
+npm run build
+```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+This project's backend is deployed on Render using the Basic Plan.(https://apex-track-json-server.onrender.com)
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+⚠️ Note: Because of the Render Basic Plan, you may experience some delays in server wake-up when accessing the site after inactivity.
+
+7. Folder Structure
+```bash
+src/
+├─ components/   # Reusable UI components (Button, InputField, NavBar)
+├─ data/         # Data Access Objects
+├─ pages/        # React pages (HomePage, LoginPage, RegisterPage, JobDetailsPage)
+├─ utils/        # Helper functions and authenticator
+├─ App.css       # Global styles
+└─ App.tsx       # Main entry point
+```
+
+8. Notes
+```bash
+The app uses CSS variables for consistent theming.
+
+Forms (Login/Register) have a fixed width to maintain layout integrity.
+
+The homepage and job listings are fully responsive.
+
+Toast notifications are used for user feedback.
 ```

@@ -26,7 +26,6 @@ export default class Authenticator {
         username,
         password,
       } as User);
-      console.log(user.id);
     }
 
     return authenticated;

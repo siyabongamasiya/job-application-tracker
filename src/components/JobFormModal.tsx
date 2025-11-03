@@ -91,7 +91,7 @@ const JobModal = ({
             onClick={() => {
               if (!isEditMode) {
                 dao
-                  .addJob(1125734941, {
+                  .addJob(Number.parseInt(currentuser?.id!), {
                     id: generateJobId(company, role),
                     company,
                     role,

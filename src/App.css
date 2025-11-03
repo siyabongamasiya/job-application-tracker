@@ -129,6 +129,7 @@ body,
 
 #midsection-main-container {
   width: 100%;
+  height: 100vh;
   flex-grow: 1;
   display: flex;
   justify-content: space-around;

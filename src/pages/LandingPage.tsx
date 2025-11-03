@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from "../components/NavBar";
 import hero from "../assets/hero.png";
 import Button from "../components/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
   return (
@@ -21,6 +22,8 @@ const TopSection = () => {
 };
 
 const MidSection = () => {
+  const navigate = useNavigate();
+
   return (
     <div id="midSection-landingPage">
       <div id="hero-section">
@@ -35,9 +38,11 @@ const MidSection = () => {
       <div id="button-container-landing">
         <Button
           text="Get Started"
-          onClick={() => {}}
+          onClick={() => {
+            navigate("/register");
+          }}
           style={{
-            width:"50%",
+            width: "50%",
             alignSelf: "center",
             padding: "0.75rem",
             borderRadius: "8px",
