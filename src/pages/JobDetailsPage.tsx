@@ -45,70 +45,50 @@ const MidSection = ({ jobId }: MidSectionProps) => {
 
   return (
     <div id="job-details-container">
-      <div id="job-details-1" className="details-container">
-        <p>
-          Company: <span className="details-span">{currentJob?.company}</span>
-        </p>
-        <p>
-          Role: <span className="details-span">{currentJob?.role}</span>
-        </p>
-        <p>
-          Status: <span className="details-span">{currentJob?.status}</span>
-        </p>
-        <p>
-          Date Applied:
-          <span className="details-span">{currentJob?.dateApplied}</span>
-        </p>
-      </div>
+      <div className="job-details-card">
+        <h2 className="job-details-title">Job Details</h2>
 
-      <div id="job-details-buttons-container">
-        <Button
-          text="Edit Job"
-          onClick={() => {
-            setIsModalOpen(true);
-          }}
-          style={{
-            marginLeft: "10%",
-            padding: "0.75rem",
-            borderRadius: "8px",
-            border: "none",
-            backgroundColor: "var(--primary)",
-            color: "var(--background)",
-            fontFamily: "var(--buttons-navLinks-font)",
-            fontWeight: "var(--buttons-navLinks-weight)",
-            cursor: "pointer",
-            fontSize: "1rem",
-          }}
-        />
-        <Button
-          text="Delete Job"
-          onClick={async () => {
-            await dao.deleteJob(currentJob!.id);
-            navigate("/");
-          }}
-          style={{
-            marginLeft: "10%",
-            padding: "0.75rem",
-            borderRadius: "8px",
-            border: "none",
-            backgroundColor: "var(--accent)",
-            color: "var(--background)",
-            fontFamily: "var(--buttons-navLinks-font)",
-            fontWeight: "var(--buttons-navLinks-weight)",
-            cursor: "pointer",
-            fontSize: "1rem",
-          }}
-        />
+        <div className="job-details-info">
+          <p>
+            <strong>Company:</strong>{" "}
+            <span className="details-span">{currentJob?.company}</span>
+          </p>
+          <p>
+            <strong>Role:</strong>{" "}
+            <span className="details-span">{currentJob?.role}</span>
+          </p>
+          <p>
+            <strong>Status:</strong>{" "}
+            <span className="details-span">{currentJob?.status}</span>
+          </p>
+          <p>
+            <strong>Date Applied:</strong>{" "}
+            <span className="details-span">{currentJob?.dateApplied}</span>
+          </p>
+        </div>
+
+        <div className="job-details-actions">
+          <Button
+            text="Edit Job"
+            onClick={() => setIsModalOpen(true)}
+            style={{ backgroundColor: "var(--primary)" }}
+          />
+          <Button
+            text="Delete Job"
+            onClick={async () => {
+              await dao.deleteJob(currentJob!.id);
+              navigate("/");
+            }}
+            style={{ backgroundColor: "var(--accent)" }}
+          />
+        </div>
       </div>
 
       <JobModal
         isEditMode={true}
         editedJobId={jobId}
         isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          
-        }}
+        onClose={() => setIsModalOpen(false)}
       />
     </div>
   );

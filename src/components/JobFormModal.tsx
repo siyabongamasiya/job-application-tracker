@@ -5,6 +5,7 @@ import DataAccesObject from "../data/dao";
 import type User from "../models/User";
 import Job from "../models/Job";
 import { generateJobId } from "../utils/IdGenerator";
+import { toast } from "sonner";
 
 const dao = new DataAccesObject();
 
@@ -89,6 +90,7 @@ const JobModal = ({
           <Button
             text={isEditMode ? "Edit" : "Submit"}
             onClick={() => {
+              toast.message("Creating job...please wait!!");
               if (!isEditMode) {
                 dao
                   .addJob(Number.parseInt(currentuser?.id!), {
@@ -102,8 +104,13 @@ const JobModal = ({
                     handleSubmit();
                   });
               } else {
-                dao.editJob(onClose,editedJobId, { company, role, dateApplied });
+                dao.editJob(onClose, editedJobId, {
+                  company,
+                  role,
+                  dateApplied,
+                });
               }
+              toast.dismiss();
             }}
             style={{
               width: "70%",
