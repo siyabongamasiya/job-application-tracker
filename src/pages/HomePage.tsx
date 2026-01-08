@@ -17,19 +17,31 @@ const dao = new DataAccesObject();
 interface MidSectionProps {}
 
 export default function HomePage() {
+  const navigate = useNavigate();
+  const dao = new DataAccesObject();
+
+  const handleLogout = () => {
+    localStorage.removeItem("currentUser");
+    navigate("/login");
+  };
+
   return (
     <div id="hompepage">
-      <TopSection />
+      <TopSection onLogout={handleLogout} />
       <MidSection />
       <Footer />
     </div>
   );
 }
 
-const TopSection = () => {
+interface TopSectionProps {
+  onLogout: () => void;
+}
+
+const TopSection = ({ onLogout }: TopSectionProps) => {
   return (
     <div>
-      <NavBar title="Home" hasBackButton={false} />
+      <NavBar title="Home" hasBackButton={false} onLogout={onLogout} />
     </div>
   );
 };
