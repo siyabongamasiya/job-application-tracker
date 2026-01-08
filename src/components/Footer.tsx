@@ -1,21 +1,19 @@
 import React from "react";
 
-const Footer= () => {
+const Footer = () => {
   return (
-    <footer id="footer"
-    >
-
+    <footer id="footer">
       <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
         <span
           style={{
             width: "15px",
             height: "15px",
             borderRadius: "50%",
-            backgroundColor: "#10DF2F", 
+            backgroundColor: "#10DF2F",
             display: "inline-block",
           }}
         ></span>
-        <span>Accepted</span>
+        <span>Interviewed</span>
       </div>
 
       <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
@@ -24,7 +22,7 @@ const Footer= () => {
             width: "15px",
             height: "15px",
             borderRadius: "50%",
-            backgroundColor: "#DF1013", 
+            backgroundColor: "#DF1013",
             display: "inline-block",
           }}
         ></span>
@@ -37,15 +35,14 @@ const Footer= () => {
             width: "15px",
             height: "15px",
             borderRadius: "50%",
-            backgroundColor: "#FFDE07", 
+            backgroundColor: "#FFDE07",
             display: "inline-block",
           }}
         ></span>
-        <span>Pending</span>
+        <span>Applied</span>
       </div>
     </footer>
   );
 };
 
 export default Footer;
-

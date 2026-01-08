@@ -18,9 +18,9 @@ const JobList = ({ jobs }: JobListProps) => {
       {jobs.map((job) => {
         const status = job.status;
         let image = pending;
-        if (status === "accepted") {
+        if (status === "Interviewed") {
           image = accepted;
-        } else if (status === "rejected") {
+        } else if (status === "Rejected") {
           image = rejected;
         } else {
           image = pending;

@@ -36,7 +36,7 @@ const TopSection = () => {
 const MidSection = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [category, setCategory] = useState("pending");
+  const [category, setCategory] = useState("All jobs");
   const [dateFilter, setDateFilter] = useState("");
   const [search, setSearch] = useState("");
   const [currentUser, setCurrentUser] = useState<User | null>(
@@ -50,6 +50,7 @@ const MidSection = () => {
   };
 
   const filterByCategory = (jobs: Job[]): Job[] => {
+    if (category === "All jobs") return jobs;
     return jobs.filter((job) => job.status === category);
   };
   const filterBySearch = (jobs: Job[]): Job[] => {
@@ -122,7 +123,7 @@ const MidSection = () => {
         />
         <div id="filters-container">
           <FilterBar
-            categories={["rejected", "accepted", "pending"]}
+            categories={["All jobs", "Applied", "Interviewed", "Rejected"]}
             category={category}
             onFilterChange={(newValue) => {
               setCategory(newValue);

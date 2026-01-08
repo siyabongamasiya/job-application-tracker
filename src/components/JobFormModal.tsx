@@ -30,12 +30,14 @@ const JobModal = ({
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [dateApplied, setDateApplied] = useState("");
+  const [status, setStatus] = useState("Applied");
 
   const handleSubmit = () => {
     onSubmit!();
     setCompany("");
     setRole("");
     setDateApplied("");
+    setStatus("Applied");
     onClose();
   };
 
@@ -50,6 +52,7 @@ const JobModal = ({
           setCompany(jobToEdit.company);
           setRole(jobToEdit.role);
           setDateApplied(jobToEdit.dateApplied);
+          setStatus(jobToEdit.status);
         }
       });
     }
@@ -87,6 +90,36 @@ const JobModal = ({
             onChange={(newValue) => setDateApplied(newValue)}
             placeholder="YYYY-MM-DD"
           />
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
+          >
+            <label
+              style={{
+                fontFamily: "var(--smallLabels-inputs-placeholders-font)",
+                fontSize: "var(--smallLabels-inputs-placeholders-size)",
+                color: "var(--dark-neutral)",
+              }}
+            >
+              Status
+            </label>
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              style={{
+                padding: "0.75rem",
+                borderRadius: "8px",
+                border: "1px solid var(--neutral)",
+                fontFamily: "var(--body-text-font)",
+                fontSize: "1rem",
+                backgroundColor: "var(--background)",
+                color: "var(--dark-neutral)",
+              }}
+            >
+              <option value="Applied">Applied</option>
+              <option value="Interviewed">Interviewed</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
           <Button
             text={isEditMode ? "Edit" : "Submit"}
             onClick={() => {
@@ -100,7 +133,7 @@ const JobModal = ({
                     company,
                     role,
                     dateApplied,
-                    status: "pending",
+                    status,
                   } as Job)
                   .then(() => {
                     handleSubmit();
@@ -110,6 +143,7 @@ const JobModal = ({
                   company,
                   role,
                   dateApplied,
+                  status,
                 });
               }
               toast.dismiss();

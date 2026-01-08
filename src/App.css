@@ -81,7 +81,7 @@ body,
   border-radius: 30%;
 }
 
-#mid-section{
+#mid-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -433,9 +433,10 @@ body,
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background-color: var(--background);
   padding: 2rem;
+  padding-top: 4rem;
 }
 
 .job-details-card {
