@@ -7,6 +7,7 @@ const dao = new DataAccesObject();
 export default class Authenticator {
   async authenticate(username: string, password: string): Promise<boolean> {
     let authenticated: boolean = false;
+    toast.message("Authenticating...");
 
     const users = await dao.getUsers();
     const user = users.find((u) => u.username === username);
@@ -26,6 +27,7 @@ export default class Authenticator {
         username,
         password,
       } as User);
+      toast.dismiss();
     }
 
     return authenticated;

@@ -77,6 +77,7 @@ const MidSection = () => {
         <Button
           text="Register"
           onClick={() => {
+            toast.message("Creating account..please wait!!");
             dao
               .createUser(
                 generateUserId(username,password),
@@ -87,8 +88,9 @@ const MidSection = () => {
               .then((users) => {
                 if (users.length != 0) {
                   toast.message("Account Created successfully!");
-                  goToNextPage("/");
+                  goToNextPage("/home");
                   clearFields();
+                  toast.dismiss()
                 }
               });
           }}

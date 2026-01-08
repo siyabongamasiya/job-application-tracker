@@ -29,7 +29,7 @@ const BottomSection = () => {
     <div id="bottom-section">
       <Button
         text="Go back Home"
-        onClick={() => {navigate("/")}}
+        onClick={() => {navigate("/home")}}
         style={{
           padding: "0.75rem",
           borderRadius: "8px",

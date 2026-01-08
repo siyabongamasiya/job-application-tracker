@@ -43,6 +43,11 @@ const MidSection = () => {
     dao.getCurrentUserFromLocalStorage()
   );
   const navigate = useNavigate();
+  const testStrings = (mainString: string, testedString: string): boolean => {
+    const escaped = testedString.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(escaped, "i");
+    return regex.test(mainString);
+  };
 
   const filterByCategory = (jobs: Job[]): Job[] => {
     return jobs.filter((job) => job.status === category);
@@ -50,10 +55,10 @@ const MidSection = () => {
   const filterBySearch = (jobs: Job[]): Job[] => {
     return jobs.filter(
       (job) =>
-        job.status === search ||
-        job.role === search ||
-        job.company === search ||
-        job.dateApplied === search ||
+        testStrings(job.status, search) ||
+        testStrings(job.role, search) ||
+        testStrings(job.company, search) ||
+        testStrings(job.dateApplied, search) ||
         search === ""
     );
   };

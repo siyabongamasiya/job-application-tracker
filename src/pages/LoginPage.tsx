@@ -70,7 +70,7 @@ const MidSection = () => {
             auth.authenticate(username, password).then((authenticated) => {
               if (authenticated) {
                 toast.message("Authenticated!!");
-                goToNextPage("/");
+                goToNextPage("/home");
                 clearFields();
               }
             });
