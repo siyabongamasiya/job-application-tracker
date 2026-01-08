@@ -90,7 +90,9 @@ const JobModal = ({
           <Button
             text={isEditMode ? "Edit" : "Submit"}
             onClick={() => {
-              toast.message("Creating job...please wait!!");
+              isEditMode
+                ? toast.message("Editing job...please wait!!")
+                : toast.message("Creating job...please wait!!");
               if (!isEditMode) {
                 dao
                   .addJob(Number.parseInt(currentuser?.id!), {

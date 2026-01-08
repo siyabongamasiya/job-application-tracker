@@ -77,7 +77,7 @@ const MidSection = ({ jobId }: MidSectionProps) => {
             text="Delete Job"
             onClick={async () => {
               await dao.deleteJob(currentJob!.id);
-              navigate("/");
+              navigate("/home");
             }}
             style={{ backgroundColor: "var(--accent)" }}
           />

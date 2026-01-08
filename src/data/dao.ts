@@ -11,6 +11,7 @@ export default class DataAccesObject {
     confirmpassword: string
   ): Promise<User[]> {
     try {
+      toast.message("fetching details...please wait!!");
       const usersResponse = await axios.get<User[]>(
         "https://apex-track-json-server.onrender.com/users"
       );
@@ -39,11 +40,12 @@ export default class DataAccesObject {
       );
 
       this.saveCurrentUserToLocalStorage({
-          id,
-          username,
-          password,
-          jobs: [],
-        } as User)
+        id,
+        username,
+        password,
+        jobs: [],
+      } as User);
+      toast.dismiss();
       return response.data;
     } catch (error) {
       toast.error("oops something went wrong!!");
@@ -76,6 +78,8 @@ export default class DataAccesObject {
   }
   async getJobById(id: string): Promise<Job> {
     try {
+      toast.dismiss();
+      toast.message("fetching details...please wait!!");
       const currentUserFromLocal = this.getCurrentUserFromLocalStorage();
       const response = await axios.get<User>(
         `https://apex-track-json-server.onrender.com/users/${
@@ -85,10 +89,11 @@ export default class DataAccesObject {
       const resultJob = response.data.jobs.filter(
         (job) => job.id.toString() === id
       );
-
+      toast.dismiss();
       return resultJob[0];
     } catch (error) {
       console.error(error);
+      toast.dismiss();
       throw error;
     }
   }
@@ -130,6 +135,7 @@ export default class DataAccesObject {
 
   async deleteJob(id: string) {
     try {
+      toast.message("Deleting job...");
       const currentUser = this.getCurrentUserFromLocalStorage()!;
       const remoteUser = await this.getUserById(currentUser.id.toString());
 
@@ -142,11 +148,15 @@ export default class DataAccesObject {
       );
 
       if (response.status === 200 || response.status === 204) {
+        toast.dismiss()
         toast.message("Deleted successfully!!");
       } else {
+        toast.dismiss()
+
         toast.error("Something went wrong... check your internet!!");
       }
     } catch (error) {
+      toast.dismiss()
       console.error(error);
       toast.error("Failed to delete job. Please try again later.");
     }
@@ -181,12 +191,12 @@ export default class DataAccesObject {
         onClose();
       } else {
         toast.error("Something went wrong... check your internet!!");
-        onClose()
+        onClose();
       }
     } catch (error) {
       console.error(error);
       toast.error("Failed to update job. Please try again later.");
-      onClose()
+      onClose();
     }
   }
 
