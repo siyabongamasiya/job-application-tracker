@@ -140,7 +140,9 @@ body,
 
 #midsection-homepage-container {
   padding: 1%;
+  padding-bottom: 120px;
   flex-grow: 1;
+  min-height: calc(100vh - 80px);
 }
 
 #button-container-homepage {
