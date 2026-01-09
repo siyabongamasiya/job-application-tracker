@@ -5,6 +5,7 @@ import SearchBar from "../components/SearchBar";
 import FilterBar from "../components/FilterBar";
 import DateFilter from "../components/DateFilter";
 import Footer from "../components/Footer";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 import JobList from "../components/JobList";
 import JobModal from "../components/JobFormModal";
@@ -51,6 +52,8 @@ const MidSection = () => {
   const [category, setCategory] = useState("All jobs");
   const [dateFilter, setDateFilter] = useState("");
   const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [currentUser, setCurrentUser] = useState<User | null>(
     dao.getCurrentUserFromLocalStorage()
   );
@@ -81,20 +84,38 @@ const MidSection = () => {
     );
   };
 
+  const sortJobs = (jobs: Job[]): Job[] => {
+    return [...jobs].sort((a, b) => {
+      const dateA = new Date(a.dateApplied).getTime();
+      const dateB = new Date(b.dateApplied).getTime();
+      return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
+    });
+  };
+
   const getJobs = () => {
     if (!currentUser) {
       navigate("/register");
       return;
     } else {
-      dao.getUserById(currentUser.id.toString()).then((user: User) => {
-        setJobs(filterByCategory(filterByDate(filterBySearch(user.jobs))));
-      });
+      setIsLoading(true);
+      dao
+        .getUserById(currentUser.id.toString())
+        .then((user: User) => {
+          const filteredJobs = filterByCategory(
+            filterByDate(filterBySearch(user.jobs))
+          );
+          setJobs(sortJobs(filteredJobs));
+          setIsLoading(false);
+        })
+        .catch(() => {
+          setIsLoading(false);
+        });
     }
   };
 
   useEffect(() => {
     getJobs();
-  }, [category, dateFilter, search]);
+  }, [category, dateFilter, search, sortOrder]);
 
   return (
     <div id="midsection-homepage-container">
@@ -145,10 +166,43 @@ const MidSection = () => {
             currentDate={dateFilter}
             onDateChange={(newValue) => setDateFilter(newValue)}
           />
+          <button
+            onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+            style={{
+              padding: "var(--spacing-md) var(--spacing-lg)",
+              borderRadius: "var(--radius-full)",
+              border: "2px solid var(--accent)",
+              backgroundColor: "var(--background)",
+              color: "var(--text-primary)",
+              fontFamily: "var(--body-text-font)",
+              fontWeight: "var(--body-text-weight)",
+              cursor: "pointer",
+              fontSize: "var(--body-text-size)",
+              transition: "all 0.2s ease",
+              display: "flex",
+              alignItems: "center",
+              gap: "var(--spacing-sm)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Sort: {sortOrder === "asc" ? "\u2191 Oldest" : "\u2193 Newest"}
+          </button>
         </div>
       </div>
       <div id="jobs-container">
-        {jobs.length === 0 ? (
+        {isLoading ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "var(--spacing-2xl)",
+              minHeight: "200px",
+            }}
+          >
+            <LoadingSpinner size="large" />
+          </div>
+        ) : jobs.length === 0 ? (
           <div
             className="job-list-container"
             style={{

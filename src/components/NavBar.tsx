@@ -26,7 +26,6 @@ export default function NavBar({ title, hasBackButton, onLogout }: NavProps) {
               cursor: "pointer",
               fontSize: "0.875rem",
               transition: "all 0.2s ease",
-              marginTop: "0.5rem",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = "#dc2626";

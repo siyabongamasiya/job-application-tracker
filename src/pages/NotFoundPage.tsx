@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../components/Button";
+import CopyrightFooter from "../components/CopyrightFooter";
 import { useNavigate } from "react-router-dom";
 
 export default function NotFoundPage() {
@@ -7,6 +8,7 @@ export default function NotFoundPage() {
     <div id="notfoundpage">
       <MidSection />
       <BottomSection />
+      <CopyrightFooter />
     </div>
   );
 }
@@ -29,7 +31,9 @@ const BottomSection = () => {
     <div id="bottom-section">
       <Button
         text="Go back Home"
-        onClick={() => {navigate("/home")}}
+        onClick={() => {
+          navigate("/home");
+        }}
         style={{
           padding: "0.75rem",
           borderRadius: "8px",

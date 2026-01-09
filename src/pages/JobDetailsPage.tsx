@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import type Job from "../models/Job";
 import Button from "../components/Button";
 import NavBar from "../components/NavBar";
+import CopyrightFooter from "../components/CopyrightFooter";
 import DataAccesObject from "../data/dao";
 import JobModal from "../components/JobFormModal";
 
@@ -20,6 +21,7 @@ export default function JobDetailsPage() {
     <div>
       <TopSection />
       <MidSection jobId={jobId!} />
+      <CopyrightFooter />
     </div>
   );
 }

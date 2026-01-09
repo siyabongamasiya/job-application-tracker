@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import NavBar from "../components/NavBar";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
+import LoadingSpinner from "../components/LoadingSpinner";
+import CopyrightFooter from "../components/CopyrightFooter";
 import DataAccesObject from "../data/dao";
 import generateUserId from "../utils/IdGenerator";
 import Authenticator from "../utils/authenticator";
@@ -17,6 +19,7 @@ export default function LoginPage() {
     <div>
       <TopSection />
       <MidSection />
+      <CopyrightFooter />
     </div>
   );
 }
@@ -32,6 +35,7 @@ const TopSection = () => {
 const MidSection = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const clearFields = () => {
@@ -65,15 +69,23 @@ const MidSection = () => {
           }}
         />
         <Button
-          text="Login"
+          text={isLoading ? "" : "Login"}
           onClick={() => {
-            auth.authenticate(username, password).then((authenticated) => {
-              if (authenticated) {
-                toast.message("Authenticated!!");
-                goToNextPage("/home");
-                clearFields();
-              }
-            });
+            if (isLoading) return;
+            setIsLoading(true);
+            auth
+              .authenticate(username, password)
+              .then((authenticated) => {
+                setIsLoading(false);
+                if (authenticated) {
+                  toast.message("Authenticated!!");
+                  goToNextPage("/home");
+                  clearFields();
+                }
+              })
+              .catch(() => {
+                setIsLoading(false);
+              });
           }}
           style={{
             width: "70%",
@@ -81,19 +93,30 @@ const MidSection = () => {
             padding: "0.75rem",
             borderRadius: "8px",
             border: "none",
-            backgroundColor: "var(--primary)",
+            backgroundColor: isLoading ? "var(--neutral)" : "var(--primary)",
             color: "var(--background)",
             fontFamily: "var(--buttons-navLinks-font)",
             fontWeight: "var(--buttons-navLinks-weight)",
-            cursor: "pointer",
+            cursor: isLoading ? "not-allowed" : "pointer",
             fontSize: "1rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "44px",
           }}
         />
+        {isLoading && (
+          <div style={{ position: "absolute", marginTop: "0.75rem" }}>
+            <LoadingSpinner size="small" color="var(--background)" />
+          </div>
+        )}
       </div>
 
       <p>
         Dont have an account?{" "}
-        <a className="login-Register-Text" href="/register">Register</a>
+        <a className="login-Register-Text" href="/register">
+          Register
+        </a>
       </p>
     </div>
   );

@@ -1,7 +1,9 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import NavBar from "../components/NavBar";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
+import LoadingSpinner from "../components/LoadingSpinner";
+import CopyrightFooter from "../components/CopyrightFooter";
 import DataAccesObject from "../data/dao";
 import Authenticator from "../utils/authenticator";
 import { toast } from "sonner";
@@ -16,6 +18,7 @@ export default function RegisterPage() {
     <div>
       <TopSection />
       <MidSection />
+      <CopyrightFooter />
     </div>
   );
 }
@@ -32,6 +35,7 @@ const MidSection = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const clearFields = () => {
@@ -75,23 +79,29 @@ const MidSection = () => {
           }}
         />
         <Button
-          text="Register"
+          text={isLoading ? "" : "Register"}
           onClick={() => {
+            if (isLoading) return;
+            setIsLoading(true);
             toast.message("Creating account..please wait!!");
             dao
               .createUser(
-                generateUserId(username,password),
+                generateUserId(username, password),
                 username,
                 password,
                 confirmPassword
               )
               .then((users) => {
+                setIsLoading(false);
                 if (users.length != 0) {
                   toast.message("Account Created successfully!");
                   goToNextPage("/home");
                   clearFields();
-                  toast.dismiss()
+                  toast.dismiss();
                 }
+              })
+              .catch(() => {
+                setIsLoading(false);
               });
           }}
           style={{
@@ -100,19 +110,30 @@ const MidSection = () => {
             padding: "0.75rem",
             borderRadius: "8px",
             border: "none",
-            backgroundColor: "var(--primary)",
+            backgroundColor: isLoading ? "var(--neutral)" : "var(--primary)",
             color: "var(--background)",
             fontFamily: "var(--buttons-navLinks-font)",
             fontWeight: "var(--buttons-navLinks-weight)",
-            cursor: "pointer",
+            cursor: isLoading ? "not-allowed" : "pointer",
             fontSize: "1rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "44px",
           }}
         />
+        {isLoading && (
+          <div style={{ position: "absolute", marginTop: "0.75rem" }}>
+            <LoadingSpinner size="small" color="var(--background)" />
+          </div>
+        )}
       </div>
 
       <p>
         Already have an account?{" "}
-        <a className="login-Register-Text" href="/login">Login</a>
+        <a className="login-Register-Text" href="/login">
+          Login
+        </a>
       </p>
     </div>
   );

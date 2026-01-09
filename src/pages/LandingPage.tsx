@@ -1,5 +1,6 @@
 import React from "react";
 import NavBar from "../components/NavBar";
+import CopyrightFooter from "../components/CopyrightFooter";
 import hero from "../assets/hero.png";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +10,7 @@ export default function LandingPage() {
     <div id="landing-page">
       <TopSection />
       <MidSection />
+      <CopyrightFooter />
     </div>
   );
 }

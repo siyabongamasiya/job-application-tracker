@@ -55,6 +55,15 @@
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -75,45 +84,41 @@ body,
 
 #nav {
   width: 100%;
-  min-height: 80px;
+  min-height: 60px;
   background: linear-gradient(135deg, var(--dark-neutral) 0%, #2d1f3d 100%);
   font-family: var(--heading-font);
   font-weight: var(--heading-weight);
-  font-size: var(--heading-size);
+  font-size: var(--heading-size-sm);
   color: var(--background);
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   box-shadow: var(--shadow-lg);
-  gap: var(--spacing-md);
-  padding: var(--spacing-lg) var(--spacing-xl);
+  padding: var(--spacing-md) var(--spacing-xl);
 }
 
 #nav-log-container {
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: start;
+  gap: var(--spacing-md);
 }
 
 #nav-title-container {
   display: flex;
-  flex-direction: column;
-  justify-content: end;
-  align-items: flex-end;
-  padding-top: 2rem;
-  padding-right: 2rem;
-  width: 100%;
-  gap: var(--spacing-sm);
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding-right: var(--spacing-sm);
 }
 
 #nav-log-container > img {
-  width: 5%;
-  max-height: 100%;
-  border-radius: 30%;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: contain;
 }
 
 #mid-section {
@@ -126,6 +131,7 @@ body,
 #midSection-landingPage {
   flex-grow: 1;
   padding: 30px;
+  padding-bottom: 80px;
 }
 
 #button-container-landingpage {
@@ -535,6 +541,7 @@ body,
   background-color: var(--background);
   padding: 2rem;
   padding-top: 4rem;
+  padding-bottom: 100px;
 }
 
 .job-details-card {
