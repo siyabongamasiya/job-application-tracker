@@ -9,35 +9,61 @@ React 19 + TypeScript + Vite SPA for tracking job applications. Backend is a JSO
 - **No global state library** - uses local component state (`useState`) and localStorage
 - **Current user session**: Stored in localStorage via `DataAccesObject.saveCurrentUserToLocalStorage()` and retrieved with `getCurrentUserFromLocalStorage()`
 - Always check `dao.getCurrentUserFromLocalStorage()` for authentication state - if null, redirect to `/register`
+- Page components manage state and pass down through props - no prop drilling beyond 2 levels
 
 ### Data Access Layer
 All backend communication goes through [src/data/dao.ts](src/data/dao.ts) (`DataAccesObject` class):
 - **Single DAO instance pattern**: Components instantiate `const dao = new DataAccesObject()`
-- **User-jobs relationship**: Users have embedded `jobs[]` array. To modify jobs, fetch user, update jobs array, PUT entire user object
+- **User-jobs relationship**: Users have embedded `jobs[]` array. To modify jobs, fetch user, update jobs array, PUT entire user object back
+- **No dedicated job endpoints**: Job CRUD always operates through user object modification (GET user → modify jobs array → PUT user)
 - **Toast-driven UX**: Every async operation shows toast feedback via `sonner` - use `toast.message()` for loading, `toast.success()`/`toast.error()` for results
 
 ### Model Classes
 - [src/models/User.ts](src/models/User.ts): `{ id: string, username: string, password: string, jobs: Job[] }`
 - [src/models/Job.ts](src/models/Job.ts): `{ id: string, company: string, role: string, dateApplied: string, status: string }`
 
-Status values in use: `"Applied"`, `"Interviewed"`, `"Rejected"` (see [FilterBar.tsx](src/components/FilterBar.tsx)). Filter categories include `"All jobs"` plus the status values.
+**Status values**: `"Applied"`, `"Interviewed"`, `"Rejected"` (see [FilterBar.tsx](src/components/FilterBar.tsx))  
+**Filter categories**: `"All jobs"` plus the three status values above
 
 ## Key Development Patterns
 
 ### Component Structure
 - **Page components** in [src/pages/](src/pages/) use internal section components (e.g., `TopSection`, `MidSection` in [HomePage.tsx](src/pages/HomePage.tsx#L27-L34))
-- **Reusable components** in [src/components/](src/components/) are generic with props interfaces
+- **Reusable components** in [src/components/](src/components/) are generic with props interfaces (e.g., `JobModalProps`, `FilterBarProps`)
+- **All components**: Function components with TypeScript interfaces for props - NO class components
 - **Styling**: All in [src/App.css](src/App.css) with CSS custom properties (`--primary`, `--background`, etc.) - NO component-specific CSS files
+- **Design system**: Uses comprehensive CSS variables for colors, typography, spacing (`--spacing-md`), border radius (`--radius-lg`), and shadows (`--shadow-md`)
 
 ### Forms & Validation
 - Form components use controlled inputs via `useState` hooks
-- Validation happens in DAO methods (e.g., username uniqueness, password matching in `createUser()`)
-- Error display through toast notifications, not inline validation messages
+- Validation happens in DAO methods (e.g., username uniqueness in `createUser()`, password matching)
+- Error display through toast notifications only, not inline validation messages
+- Input components follow floating label pattern (see [InputField.tsx](src/components/InputField.tsx))
+
+### Filtering & Sorting Pattern
+[HomePage.tsx](src/pages/HomePage.tsx) demonstrates the standard pattern:
+```tsx
+// Chain filters: category → search → date → sort
+const filteredJobs = sortJobs(filterByDate(filterBySearch(filterByCategory(jobs))));
+```
+- Each filter returns new array without mutating original
+- Sorting uses spread operator: `[...jobs].sort()`
+- Date filtering uses exact string match, search uses regex `testStrings()` helper
 
 ### Routing & Navigation
 - [src/App.tsx](src/App.tsx): React Router v7 with routes: `/` (landing), `/home`, `/login`, `/register`, `/jobdetails/:jobId`, `*` (404)
 - Use `useNavigate()` hook for programmatic navigation
 - Job details use route params: `const { jobId } = useParams<URLParams>()`
+- Protected routes: [HomePage.tsx](src/pages/HomePage.tsx) checks localStorage, redirects to `/register` if no user found
+
+### Authentication Pattern
+[src/utils/authenticator.ts](src/utils/authenticator.ts) handles login flow:
+```tsx
+const auth = new Authenticator();
+const authenticated = await auth.authenticate(username, password);
+// Authenticator saves user to localStorage on success
+```
+Registration uses `dao.createUser()` which also saves to localStorage on success. Both redirect to `/home` after successful auth.
 
 ### ID Generation
 [src/utils/IdGenerator.ts](src/utils/IdGenerator.ts) uses hash functions:
@@ -67,6 +93,12 @@ Global `<Toaster richColors />` in [App.tsx](src/App.tsx#L27)
 ### TypeScript Configuration
 - Root [tsconfig.json](tsconfig.json) references [tsconfig.app.json](tsconfig.app.json) and [tsconfig.node.json](tsconfig.node.json)
 - Uses TypeScript 5.8.3 with strict type checking
+- Type-only imports for models: `import type User from "../models/User"`
+
+### ESLint Configuration
+- Uses ESLint 9 flat config format in [eslint.config.js](eslint.config.js)
+- Extends: `@eslint/js`, `typescript-eslint`, `react-hooks`, `react-refresh`
+- Configured for browser environment with ES2020 features
 
 ## Conventions
 

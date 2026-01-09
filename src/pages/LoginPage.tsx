@@ -107,7 +107,7 @@ const MidSection = () => {
         />
         {isLoading && (
           <div style={{ position: "absolute", marginTop: "0.75rem" }}>
-            <LoadingSpinner size="small" color="var(--background)" />
+            <LoadingSpinner size="small" color="var(--primary)" />
           </div>
         )}
       </div>
